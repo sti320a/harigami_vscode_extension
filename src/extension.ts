@@ -14,7 +14,8 @@ export function activate(context: ExtensionContext) {
 
 class CodeSubmitter {
 
-	_HOST: string = 'http://localhost:5000';
+	// _HOST: string = 'http://localhost:5000';
+	_HOST: string = 'https://harigami.net';
 
 	public submitCode() {
 		/**
@@ -69,6 +70,5 @@ class CodeSubmitter {
 	}
 
 }
-
 
 export function deactivate() {}

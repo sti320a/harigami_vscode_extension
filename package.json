@@ -1,7 +1,8 @@
 {
-	"name": "harigamiExtension",
-	"displayName": "harigami_extension",
-	"description": "",
+	"name": "harigami4vscode",
+	"displayName": "Harigami",
+	"publisher": "sugiyama",
+	"description": "This is the extension of 'Harigami' which is an web application for sharing codes without signing up.",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.30.0"
