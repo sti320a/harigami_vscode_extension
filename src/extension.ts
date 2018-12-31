@@ -25,6 +25,7 @@ export function activate(context: ExtensionContext) {
 class CodeSubmitter {
 
 	public submitCode() {
+		
 
 		// Get active editor
 		let editor = window.activeTextEditor;
@@ -32,66 +33,38 @@ class CodeSubmitter {
 			return
 		}
 
-
 		// Get document
 		let doc = editor.document;
 		let content: string = doc.getText();
-		
 
-        // send request to harigami server
-		const json_data = {
+		// send request to harigami server
+		let json_data = {
 			lang: "Python",
-			code: content
+			code: content,
+			status: 0
 		}
 
-		const qs_data = querystring.stringify(json_data);
+		// to be querystring
+        let qs_data = querystring.stringify(json_data);
 
-		const options = {
-			hostname: '127.0.0.1',
-			port: 5000,
-			path: '/',
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Content-Length': Buffer.byteLength(qs_data)
+        console.log(qs_data);
+
+		let webclient = require("request");
+		webclient.post(
+			{
+				url: "http://localhost:5000/api_submit_code",
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+					"Content-Length": qs_data.length
+					},
+				body: qs_data
+
+			}, function (error, response, body) {
+				console.log(response);
 			}
-		}
+		);
 
-		let StringDecoder = stringDecoder.StringDecoder;
-		let decoder = new StringDecoder('');
-
-		// リクエスト定義と応答処理設定
-		let req = HTTP.request(options, function(res) {
-			console.log("STATUS: ", res.statusCode);
-			console.log("HEADERS: ", JSON.stringify(res.headers));
-			res.setEncoding('utf8');
-
-			// 応答受信処理
-			res.on('data', function(chunk: any){
-				console.log("BODY: ", chunk);
-				// Query String -> JSON形式へ変換
-				var rcv_text = querystring.parse(decoder.write(chunk))
-					var rcv_json_text = JSON.stringify(rcv_text);
-					var rcv_json = JSON.parse(rcv_json_text);
-					console.log("json text = ", rcv_json.message);
-					console.log("json number = ", rcv_json.sound);
-					console.log("json boolean = ", rcv_json.reply);
-				});
-				// 応答終了処理
-				res.on('end', function(){
-				console.log('これ以上データはありません。')
-			});
-		});
-		// 送信のエラー処理
-		req.on('error', function(e){
-		console.log( "エラー発生: ", e.message);
-		});
-		// データ送信(GET)
-		req.write(qs_data);
-		req.end();
-			
-		window.showInformationMessage(content);
-			
+		window.showInformationMessage(content);			
 	}
 
 }
