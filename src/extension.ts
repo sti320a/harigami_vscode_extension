@@ -12,8 +12,9 @@ export function activate(context: ExtensionContext) {
 	context.subscriptions.push(disposable);
 }
 
-
 class CodeSubmitter {
+
+	_HOST: string = 'http://localhost:5000';
 
 	public submitCode() {
 		/**
@@ -47,10 +48,11 @@ class CodeSubmitter {
 		// to be querystring
         let qs_data = querystring.stringify(json_data);
 
+		// Do POST with request 
 		let webclient = require("request");
 		webclient.post(
 			{
-				url: "http://localhost:5000/api_submit_code",
+				url: this._HOST + "/api_submit_code",
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 					"Content-Length": qs_data.length
@@ -58,9 +60,7 @@ class CodeSubmitter {
 				body: qs_data
 
 			}, function (error, response, body) {
-				console.log(response);
 				let body_json = JSON.parse(body);
-
 				window.showInformationMessage(body_json['url']);			
 				window.showInformationMessage("Please use this url for sharing your code.");			
 			}
