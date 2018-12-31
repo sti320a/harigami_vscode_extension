@@ -7,10 +7,7 @@ import * as stringDecoder from 'string_decoder';
 
 export function activate(context: ExtensionContext) {
 
-	console.log('Congratulations, your extension "harigamiExtension" is now active!');
-
 	let disposable = commands.registerCommand('extension.harigami', () => {
-		// The code you place here will be executed every time your command is executed
 
 		const submitter = new CodeSubmitter();
 		submitter.submitCode();
