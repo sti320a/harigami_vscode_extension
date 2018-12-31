@@ -1,18 +1,12 @@
 
 import {window, commands, ExtensionContext } from 'vscode';
-import * as HTTP from 'http';
-import * as HTTPs from 'https';
 import * as querystring from 'querystring';
-import * as stringDecoder from 'string_decoder';
 
 export function activate(context: ExtensionContext) {
 
 	let disposable = commands.registerCommand('extension.harigami', () => {
-
 		const submitter = new CodeSubmitter();
 		submitter.submitCode();
-
-		window.showInformationMessage('Send your code successfully.');
 	});
 
 	context.subscriptions.push(disposable);
@@ -45,12 +39,10 @@ class CodeSubmitter {
 
 		// Send request to harigami server
 		let json_data = {
-			lang: lang, // TODO: transform lang type for corresiponding to harigami style
+			lang: lang,
 			code: content,
 			status: 0
 		}
-
-		console.log(json_data);
 
 		// to be querystring
         let qs_data = querystring.stringify(json_data);
@@ -67,10 +59,13 @@ class CodeSubmitter {
 
 			}, function (error, response, body) {
 				console.log(response);
+				let body_json = JSON.parse(body);
+
+				window.showInformationMessage(body_json['url']);			
+				window.showInformationMessage("Please use this url for sharing your code.");			
 			}
 		);
 
-		window.showInformationMessage(content);			
 	}
 
 }
