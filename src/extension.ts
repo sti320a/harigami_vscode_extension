@@ -25,7 +25,15 @@ export function activate(context: ExtensionContext) {
 class CodeSubmitter {
 
 	public submitCode() {
-		
+		/**
+		 * Submit code of active tab to harigami api. 
+		 * Send these 3 items.
+		 * 
+		 * 1. code: contents of the code. All text of current active tab. 
+		 * 2. lang: programing language. This depends on VSCode 'window.activeTextEditor.document.languageId' extension.
+		 * 3. status: private or not. 0 => public 1 => private
+		 * 
+		 */
 
 		// Get active editor
 		let editor = window.activeTextEditor;
@@ -35,19 +43,20 @@ class CodeSubmitter {
 
 		// Get document
 		let doc = editor.document;
+		let lang: string = doc.languageId;
 		let content: string = doc.getText();
 
 		// send request to harigami server
 		let json_data = {
-			lang: "Python",
+			lang: lang,
 			code: content,
 			status: 0
 		}
 
+		console.log(json_data);
+
 		// to be querystring
         let qs_data = querystring.stringify(json_data);
-
-        console.log(qs_data);
 
 		let webclient = require("request");
 		webclient.post(
