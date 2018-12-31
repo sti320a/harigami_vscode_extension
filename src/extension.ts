@@ -48,7 +48,7 @@ class CodeSubmitter {
 
 		// send request to harigami server
 		let json_data = {
-			lang: lang,
+			lang: lang, // TODO: transform lang type for corresiponding to harigami style
 			code: content,
 			status: 0
 		}
