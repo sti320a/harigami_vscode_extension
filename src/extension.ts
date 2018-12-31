@@ -43,7 +43,7 @@ class CodeSubmitter {
 		let lang: string = doc.languageId;
 		let content: string = doc.getText();
 
-		// send request to harigami server
+		// Send request to harigami server
 		let json_data = {
 			lang: lang, // TODO: transform lang type for corresiponding to harigami style
 			code: content,
@@ -75,5 +75,5 @@ class CodeSubmitter {
 
 }
 
-// this method is called when your extension is deactivated
+
 export function deactivate() {}
